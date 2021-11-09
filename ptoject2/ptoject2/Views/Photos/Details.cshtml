@@ -1,0 +1,36 @@
+﻿@model ptoject2.Models.Photo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Photo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImagePath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MetaId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AlbumId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AlbumId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PhotoId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,42 @@
+﻿@model ptoject2.Models.MetaData
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MetaData</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CapturDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CapturDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CaptureBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CaptureBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Geolocation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Geolocation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MetaId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

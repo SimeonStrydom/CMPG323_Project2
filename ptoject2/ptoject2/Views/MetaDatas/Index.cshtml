@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ptoject2.Models.MetaData>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CapturDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaptureBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Geolocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tags)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CapturDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaptureBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Geolocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tags)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MetaId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MetaId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MetaId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
