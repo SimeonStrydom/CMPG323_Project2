@@ -12560,11 +12560,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\2021 IT\\CMPG 323\\Test2\\ptoject2\\ptoject2\\ptoject2.csproj",
+      "projectUniqueName": "E:\\2021 IT\\CMPG 323\\CMPG323_Project2\\ptoject2\\ptoject2\\ptoject2.csproj",
       "projectName": "ptoject2",
-      "projectPath": "E:\\2021 IT\\CMPG 323\\Test2\\ptoject2\\ptoject2\\ptoject2.csproj",
+      "projectPath": "E:\\2021 IT\\CMPG 323\\CMPG323_Project2\\ptoject2\\ptoject2\\ptoject2.csproj",
       "packagesPath": "C:\\Users\\User-PC\\.nuget\\packages\\",
-      "outputPath": "E:\\2021 IT\\CMPG 323\\Test2\\ptoject2\\ptoject2\\obj\\",
+      "outputPath": "E:\\2021 IT\\CMPG 323\\CMPG323_Project2\\ptoject2\\ptoject2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
