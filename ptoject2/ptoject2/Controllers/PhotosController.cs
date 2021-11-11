@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,12 @@ namespace ptoject2.Controllers
     public class PhotosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _hostingEnv;
 
-        public PhotosController(ApplicationDbContext context)
+        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv)
         {
             _context = context;
+            _hostingEnv = hostingEnv;
         }
 
         // GET: Photos
@@ -54,7 +58,7 @@ namespace ptoject2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,MetaId,AlbumId")] Photo photo)
+        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId,AlbumId")] Photo photo)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +90,7 @@ namespace ptoject2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PhotoId,ImagePath,MetaId,AlbumId")] Photo photo)
+        public async Task<IActionResult> Edit(int id, [Bind("PhotoId,ImagePath,ImageName,MetaId,AlbumId")] Photo photo)
         {
             if (id != photo.PhotoId)
             {
@@ -148,6 +152,31 @@ namespace ptoject2.Controllers
         private bool PhotoExists(int id)
         {
             return _context.Photo.Any(e => e.PhotoId == id);
+        }
+
+        //POST: Photos/FileUpload
+        [HttpPost]
+        public async Task<ActionResult> Post([FromForm] Photo photoVM)
+        {
+            if(photoVM.Image != null)
+            {
+                var a = _hostingEnv.WebRootPath;
+                var fileName = Path.GetFileName(photoVM.Image.FileName);
+                var filePath = Path.Combine(_hostingEnv.WebRootPath, "images", fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await photoVM.Image.CopyToAsync(fileStream);
+                }
+
+                Photo photo = new Photo();
+                photo.ImageName = photoVM.ImageName;
+                photo.ImagePath = filePath;
+                _context.Add(photo);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            else { return BadRequest(); }
         }
     }
 }
