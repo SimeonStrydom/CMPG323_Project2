@@ -12,12 +12,18 @@ namespace ptoject2.Models
     {
         [Key]
         public int PhotoId { get; set; }
+        
         public string ImagePath { get; set; }
+
         [Display(Name = "Photo name")]
         public string ImageName { get; set; }
-        [ForeignKey("MetaData")]
+
+        [ForeignKey("MetaId")]
+        public MetaData MetaData { get; set; }
         public int MetaId { get; set; }
-        [ForeignKey("Album")]
+
+        [ForeignKey("AlbumId")]
+        public Album Album { get; set; }
         public int AlbumId { get; set; }
 
         [NotMapped]
@@ -35,7 +41,7 @@ namespace ptoject2.Models
 
     /*public class PhotoViewModel
     {
-        public string PhotoName { get; set; }
+        public string ImageName { get; set; }
         public IFormFile Image { get; set; }
     }*/
 }

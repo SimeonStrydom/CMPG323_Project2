@@ -25,6 +25,12 @@ namespace ptoject2.Controllers
             return View(await _context.MetaData.ToListAsync());
         }
 
+        // GET: MetaDatas/ShowSearchForm
+        public async Task<IActionResult> ShowSearchForm()
+        {
+            return View();
+        }
+
         // GET: MetaDatas/Details/5
         public async Task<IActionResult> Details(int? id)
         {

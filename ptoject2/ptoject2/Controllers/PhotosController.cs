@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -58,15 +59,56 @@ namespace ptoject2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId,AlbumId")] Photo photo)
+        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId")] Photo photo)
         {
-            if (ModelState.IsValid)
+            if (photo.Image != null)
             {
+                var fileName = Path.GetFileName(photo.Image.FileName);
+                var filePath = Path.Combine(_hostingEnv.WebRootPath, "images", fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.Image.CopyToAsync(fileStream);
+                    fileStream.Close();
+                }
+
+                /*Photo photo = new Photo();
+                photo.ImageName = photoVM.ImageName;
+                photo.ImagePath = filePath;*/
+
+                _context.Add(photo);
+                await _context.SaveChangesAsync();
+                return View(photo);
+            }
+            else { return View(photo); }
+            /*if (ModelState.IsValid)
+            {
+                
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(photo);
+            return View(photo);*/
+        }
+        
+        public string Upload(IFormFile  file)
+        {
+            var uploadDirectory = "uploads/";
+            var uploadPath = Path.Combine(_hostingEnv.WebRootPath, uploadDirectory);
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            var fileName = /*Guid.NewGuid() + */Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploadPath, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+                
+            {
+                file.CopyToAsync(fileStream);
+                fileStream.Close();
+            }
+            return fileName;
+            
         }
 
         // GET: Photos/Edit/5
@@ -155,28 +197,25 @@ namespace ptoject2.Controllers
         }
 
         //POST: Photos/FileUpload
-        [HttpPost]
+        /*[HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Post([FromForm] Photo photoVM)
         {
-            if(photoVM.Image != null)
+            if (photoVM.Image != null)
             {
-                var a = _hostingEnv.WebRootPath;
-                var fileName = Path.GetFileName(photoVM.Image.FileName);
-                var filePath = Path.Combine(_hostingEnv.WebRootPath, "images", fileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await photoVM.Image.CopyToAsync(fileStream);
-                }
+                Upload(photoVM.Image);
 
                 Photo photo = new Photo();
                 photo.ImageName = photoVM.ImageName;
-                photo.ImagePath = filePath;
+                //photo.ImagePath = filePath;
+
+                
+
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
-                return Ok();
+                return View(photo);
             }
             else { return BadRequest(); }
-        }
+        }*/
     }
 }
