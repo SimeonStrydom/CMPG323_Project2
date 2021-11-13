@@ -13,14 +13,12 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
+                @Html.DisplayNameFor(model => model.ImagePath)<!--change to image-->
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ImageName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MetaId)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.AlbumId)
             </th>
@@ -31,14 +29,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
+                @Html.DisplayFor(modelItem => item.ImagePath)<!--change to disply image-->
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImageName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetaId)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.AlbumId)
             </td>

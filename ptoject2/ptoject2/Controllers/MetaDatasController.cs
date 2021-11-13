@@ -31,6 +31,25 @@ namespace ptoject2.Controllers
             return View();
         }
 
+        // POST: MetaDatas/ShowSearchResults
+        public async Task<IActionResult>  ShowSearchResults(string CaptureBy, string Tags)  //not reciving values
+        {
+            string c = CaptureBy;
+            string t = Tags;
+            string search = "";
+            if(t != "" & c != "")
+            {
+                search = c + " OR " + t;
+            }
+            else
+            {
+                if (c != "") { search = c; }
+                if (t != "") { search = t; }
+            }
+            
+            return View("Index", await _context.MetaData.Where(i => i.CaptureBy.Contains(search)).ToListAsync());
+        }
+
         // GET: MetaDatas/Details/5
         public async Task<IActionResult> Details(int? id)
         {

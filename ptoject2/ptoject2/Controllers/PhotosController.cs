@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,7 @@ namespace ptoject2.Controllers
         }
 
         // GET: Photos/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -59,6 +61,7 @@ namespace ptoject2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId")] Photo photo)
         {
             if (photo.Image != null)
@@ -112,6 +115,7 @@ namespace ptoject2.Controllers
         }
 
         // GET: Photos/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -132,6 +136,7 @@ namespace ptoject2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("PhotoId,ImagePath,ImageName,MetaId,AlbumId")] Photo photo)
         {
             if (id != photo.PhotoId)
@@ -163,6 +168,7 @@ namespace ptoject2.Controllers
         }
 
         // GET: Photos/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -183,6 +189,7 @@ namespace ptoject2.Controllers
         // POST: Photos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
@@ -199,6 +206,7 @@ namespace ptoject2.Controllers
         //POST: Photos/FileUpload
         /*[HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Post([FromForm] Photo photoVM)
         {
             if (photoVM.Image != null)
