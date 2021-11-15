@@ -14,7 +14,7 @@ namespace ptoject2.Models
         public DateTime CapturDate { get; set; }
         public string CaptureBy { get; set; }
         public string Geolocation { get; set; }
-        public string Tags { get; set; }
+        public virtual IEnumerable<Tag> Tags { get; set; }
 
         public MetaData()
         {

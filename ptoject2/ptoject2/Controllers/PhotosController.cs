@@ -62,7 +62,7 @@ namespace ptoject2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId")] Photo photo)
+        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId,Image"), FromForm] Photo photo)
         {
             if (photo.Image != null)
             {
@@ -75,13 +75,14 @@ namespace ptoject2.Controllers
                     fileStream.Close();
                 }
 
-                /*Photo photo = new Photo();
-                photo.ImageName = photoVM.ImageName;
-                photo.ImagePath = filePath;*/
+                photo.ImagePath = filePath;
+                photo.ImageName = fileName;
+                //Photo photo1 = new Photo();
+                //photo1.ImagePath = filePath;
 
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
-                return View(photo);
+                return Redirect("https://localhost:44335/MetaDatas/Create");
             }
             else { return View(photo); }
             /*if (ModelState.IsValid)
@@ -101,7 +102,7 @@ namespace ptoject2.Controllers
             if (!Directory.Exists(uploadPath))
                 Directory.CreateDirectory(uploadPath);
 
-            var fileName = /*Guid.NewGuid() + */Path.GetExtension(file.FileName);
+            var fileName = Path.GetExtension(file.FileName);
             var filePath = Path.Combine(uploadPath, fileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -169,7 +170,7 @@ namespace ptoject2.Controllers
 
         // GET: Photos/Delete/5
         [Authorize]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string? imagePath)
         {
             if (id == null)
             {
@@ -178,6 +179,8 @@ namespace ptoject2.Controllers
 
             var photo = await _context.Photo
                 .FirstOrDefaultAsync(m => m.PhotoId == id);
+            var image = await _context.Photo
+                .FirstOrDefaultAsync(m => m.ImagePath == imagePath);
             if (photo == null)
             {
                 return NotFound();
@@ -193,6 +196,7 @@ namespace ptoject2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
+            var image = await _context.Photo.FindAsync(ImagePath);
             _context.Photo.Remove(photo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -203,27 +207,6 @@ namespace ptoject2.Controllers
             return _context.Photo.Any(e => e.PhotoId == id);
         }
 
-        //POST: Photos/FileUpload
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<ActionResult> Post([FromForm] Photo photoVM)
-        {
-            if (photoVM.Image != null)
-            {
-                Upload(photoVM.Image);
-
-                Photo photo = new Photo();
-                photo.ImageName = photoVM.ImageName;
-                //photo.ImagePath = filePath;
-
-                
-
-                _context.Add(photo);
-                await _context.SaveChangesAsync();
-                return View(photo);
-            }
-            else { return BadRequest(); }
-        }*/
+        
     }
 }

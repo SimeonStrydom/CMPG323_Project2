@@ -16,5 +16,6 @@ namespace ptoject2.Data
         public DbSet<ptoject2.Models.Photo> Photo { get; set; }
         public DbSet<ptoject2.Models.MetaData> MetaData { get; set; }
         public DbSet<ptoject2.Models.Album> Album { get; set; }
+        public DbSet<ptoject2.Models.Tag> Tags { get; set; }
     }
 }
