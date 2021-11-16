@@ -32,22 +32,22 @@ namespace ptoject2.Controllers
         }
 
         // POST: MetaDatas/ShowSearchResults
-        public async Task<IActionResult>  ShowSearchResults(string CaptureBy, string Tags)  //not reciving values
+        public async Task<IActionResult>  ShowSearchResults([Bind("CaptureBy")]string CaptureBy, string Tags)  //not reciving values
         {
-            string c = CaptureBy;
+            /*string c = CaptureBy;
             string t = Tags;
             string search = "";
-            if(t != "" & c != "")
+            if(t != null && c != null)
             {
                 search = c + " OR " + t;
             }
             else
             {
-                if (c != "") { search = c; }
-                if (t != "") { search = t; }
-            }
+                if (c != null) { search = c; }
+                if (t != null) { search = t; }
+            }*/
             
-            return View("Index", await _context.MetaData.Where(i => i.CaptureBy.Contains(search)).ToListAsync());
+            return View("Index", await _context.MetaData.Where( j => j.CaptureBy.Contains(CaptureBy) || j.Tags.Contains(Tags)).ToListAsync());
         }
 
         // GET: MetaDatas/Details/5

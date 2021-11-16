@@ -170,7 +170,7 @@ namespace ptoject2.Controllers
 
         // GET: Photos/Delete/5
         [Authorize]
-        public async Task<IActionResult> Delete(int? id, string? imagePath)
+        public async Task<IActionResult> Delete(int? id/*, string? imagePath*/)
         {
             if (id == null)
             {
@@ -179,8 +179,8 @@ namespace ptoject2.Controllers
 
             var photo = await _context.Photo
                 .FirstOrDefaultAsync(m => m.PhotoId == id);
-            var image = await _context.Photo
-                .FirstOrDefaultAsync(m => m.ImagePath == imagePath);
+            /*var image = await _context.Photo
+                .FirstOrDefaultAsync(m => m.ImagePath == imagePath);*/
             if (photo == null)
             {
                 return NotFound();
@@ -196,7 +196,7 @@ namespace ptoject2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
-            var image = await _context.Photo.FindAsync(ImagePath);
+            //var image = await _context.Photo.FindAsync(ImagePath);
             _context.Photo.Remove(photo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
