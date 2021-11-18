@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -26,8 +27,27 @@ namespace ptoject2.Controllers
         }
 
         // GET: Photos
+        [Authorize]
         public async Task<IActionResult> Index()
         {
+
+            var filePath = Path.Combine(_hostingEnv.WebRootPath, "images");
+            string[] fileNames = Directory.GetFiles(filePath);
+            var imageList = new List<Photo>();
+            foreach (string file in fileNames) { 
+            {
+                new Photo()
+                {
+                    ImageName = Path.GetFileName(file),
+                    ImagePath = file,
+                    
+                };
+            } }
+
+            var gallery = new GalleryIndexModel()
+            {
+                Images = imageList
+            };
             return View(await _context.Photo.ToListAsync());
         }
 
@@ -170,7 +190,7 @@ namespace ptoject2.Controllers
 
         // GET: Photos/Delete/5
         [Authorize]
-        public async Task<IActionResult> Delete(int? id/*, string? imagePath*/)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -179,8 +199,7 @@ namespace ptoject2.Controllers
 
             var photo = await _context.Photo
                 .FirstOrDefaultAsync(m => m.PhotoId == id);
-            /*var image = await _context.Photo
-                .FirstOrDefaultAsync(m => m.ImagePath == imagePath);*/
+            
             if (photo == null)
             {
                 return NotFound();
@@ -196,7 +215,8 @@ namespace ptoject2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
-            //var image = await _context.Photo.FindAsync(ImagePath);
+            ImageDelete(Path.Combine(photo.ImagePath, photo.ImageName));
+            
             _context.Photo.Remove(photo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -206,7 +226,27 @@ namespace ptoject2.Controllers
         {
             return _context.Photo.Any(e => e.PhotoId == id);
         }
-
         
+        private static void ImageDelete(string path)
+        {
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+
+            bool isDeleted = false;
+            while (!isDeleted)
+            {
+                try
+                {
+                    System.IO.File.Delete(path);
+                    isDeleted = true;
+                }
+                catch (Exception e)     // log exception
+                {
+                }
+                Thread.Sleep(50);
+            }
+        }
     }
 }

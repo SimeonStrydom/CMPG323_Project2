@@ -29,7 +29,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)<!--change to disply image-->
+                <div style="background-image:url(~/images/@item.ImageName)"><img src="~/images/@item.ImageName" class="gallery-image" alt="@item.ImageName" /></div><!--change to disply image-->
+                <div>@Html.DisplayFor(modelItem => item.Image)</div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImageName)
