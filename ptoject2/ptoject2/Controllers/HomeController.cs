@@ -5,6 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ptoject2.Models;
+using System.Web;
+//using System.Web.MVC;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+
 
 namespace ptoject2.Controllers
 {

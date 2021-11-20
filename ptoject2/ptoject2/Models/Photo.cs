@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,11 @@ namespace ptoject2.Models
     {
         [Key]
         public int PhotoId { get; set; }
-        
+
+        [ForeignKey("FK_UserId")]
+        //UserManager.getId
+        //public int UserId { get; set; }
+
         public string ImagePath { get; set; }
 
         [Display(Name = "Photo name")]
@@ -25,6 +30,8 @@ namespace ptoject2.Models
         [ForeignKey("AlbumId")]
         public Album Album { get; set; }
         public int AlbumId { get; set; }
+
+        
 
         [NotMapped]
         [DataType(DataType.Upload)]

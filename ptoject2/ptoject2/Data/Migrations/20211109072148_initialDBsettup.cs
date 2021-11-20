@@ -51,6 +51,7 @@ namespace ptoject2.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photo", x => x.PhotoId);
+                    //table.ForeignKey("FK_MetaData", y => y.MetaId);
                 });
         }
 

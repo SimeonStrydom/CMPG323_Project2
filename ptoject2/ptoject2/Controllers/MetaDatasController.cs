@@ -32,7 +32,7 @@ namespace ptoject2.Controllers
         }
 
         // POST: MetaDatas/ShowSearchResults
-        public async Task<IActionResult>  ShowSearchResults([Bind("CaptureBy")]string CaptureBy, string Tags)
+        public async Task<IActionResult>  ShowSearchResults([Bind("CaptureBy, Tags")]string CaptureBy, string Tags)
         {
             return View("Index", await _context.MetaData.Where( j => j.CaptureBy.Contains(CaptureBy) || j.Tags.Contains(Tags)).ToListAsync());
         }

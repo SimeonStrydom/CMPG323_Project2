@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ptoject2.Data;
 using ptoject2.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace ptoject2.Controllers
 {
@@ -19,11 +20,17 @@ namespace ptoject2.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnv;
+        private IConfiguration _config;
+        private string AzureConnectionString { get; }
 
-        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv)
+        
+
+        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config)
         {
             _context = context;
             _hostingEnv = hostingEnv;
+            _config = config;
+            AzureConnectionString = _config["AzureStorageConectionString"];
         }
 
         // GET: Photos
@@ -82,7 +89,7 @@ namespace ptoject2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("PhotoId,ImagePath,ImageName,MetaId,Image"), FromForm] Photo photo)
+        public async Task<IActionResult> Create([Bind("PhotoId, UserId, ImagePath,ImageName,MetaId,Image"), FromForm] Photo photo)
         {
             if (photo.Image != null)
             {

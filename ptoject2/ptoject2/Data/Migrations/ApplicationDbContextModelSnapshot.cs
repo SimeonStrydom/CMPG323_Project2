@@ -234,7 +234,24 @@ namespace ptoject2.Data.Migrations
 
                     b.HasKey("PhotoId");
 
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("MetaId");
+
                     b.ToTable("Photo");
+                });
+
+            modelBuilder.Entity("ptoject2.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Discription");
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -279,6 +296,19 @@ namespace ptoject2.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ptoject2.Models.Photo", b =>
+                {
+                    b.HasOne("ptoject2.Models.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ptoject2.Models.MetaData", "MetaData")
+                        .WithMany()
+                        .HasForeignKey("MetaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
