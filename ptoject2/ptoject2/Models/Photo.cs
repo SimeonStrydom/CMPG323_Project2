@@ -31,7 +31,7 @@ namespace ptoject2.Models
         public Album Album { get; set; }
         public int AlbumId { get; set; }
 
-        
+        public /*virtual IEnumerable<Shared>*/string SharedWith { get; set; }
 
         [NotMapped]
         [DataType(DataType.Upload)]

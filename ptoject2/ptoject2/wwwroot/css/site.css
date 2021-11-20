@@ -51,3 +51,19 @@ body {
     position: relative;
     box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2), 0 5px 5px rgba(0, 0, 0, 0.2);
 }
+
+.button {
+    background-color: #e7e7e7;
+    color: black;
+    border: solid black;
+    /*color: white;*/
+    width: 200px;
+    height: 40px;
+    padding: 10px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2), 0 5px 5px rgba(0, 0, 0, 0.2);
+}

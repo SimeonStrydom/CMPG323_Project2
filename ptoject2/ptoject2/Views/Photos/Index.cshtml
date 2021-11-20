@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ImagePath)<!--change to image-->
+                Photo<!--@Html.DisplayNameFor(model => model.ImagePath)change to image-->
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ImageName)
@@ -31,6 +31,9 @@
             <td>
                 <div style="background-image:url(~/images/@item.ImageName)"><img src="~/images/@item.ImageName" class="gallery-image" alt="@item.ImageName" /></div><!--change to disply image-->
                 <div>@Html.DisplayFor(modelItem => item.Image)</div>
+                <div class="button">
+                    <a asp-action="ShareImage" asp-route-id="@item.SharedWith" >Share</a>
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImageName)

@@ -55,7 +55,6 @@ E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\bin\Debug\netcoreapp2.1\p
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\bin\Debug\netcoreapp2.1\ptoject2.pdb
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\bin\Debug\netcoreapp2.1\ptoject2.Views.dll
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\bin\Debug\netcoreapp2.1\ptoject2.Views.pdb
-E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\ptoject2.csprojAssemblyReference.cache
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\ptoject2.csproj.CoreCompileInputs.cache
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\ptoject2.RazorAssemblyInfo.cache
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\ptoject2.RazorAssemblyInfo.cs
@@ -98,4 +97,5 @@ E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\R
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\Razor\Views\Photos\Edit.g.cshtml.cs
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\Razor\Views\Photos\Index.g.cshtml.cs
 E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\Razor\Views\MetaDatas\ShowSearchForm.g.cshtml.cs
-E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\Razor\Views\Photos\ShareImage.g.cshtml.cs
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2\obj\Debug\netcoreapp2.1\ptoject2.csprojAssemblyReference.cache

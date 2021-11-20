@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using ptoject2.Data;
 using ptoject2.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace ptoject2.Controllers
 {
@@ -20,17 +21,19 @@ namespace ptoject2.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnv;
+        private readonly UserManager<IdentityUser> _userManager;
         private IConfiguration _config;
         private string AzureConnectionString { get; }
 
         
 
-        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config)
+        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _hostingEnv = hostingEnv;
             _config = config;
             AzureConnectionString = _config["AzureStorageConectionString"];
+            _userManager = userManager;
         }
 
         // GET: Photos
@@ -255,5 +258,58 @@ namespace ptoject2.Controllers
                 Thread.Sleep(50);
             }
         }
+
+        // GET: Photos/ShareImage/5
+        [Authorize]
+        public async Task<IActionResult> ShareImage(int? id)
+        {
+            return View();
+        }
+
+        //POST: Photos/ShareConfirm 
+        [HttpPost, ActionName("ShareImage")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> ShareConfirm(int id, [Bind("SharedWith")] Photo photo)
+        {
+            if (id != photo.PhotoId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                try
+                {
+
+                    _context.Update(photo);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PhotoExists(photo.PhotoId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+
+
+            /*photo = await _context.Photo.FindAsync(id);
+            var shared = 
+            _context.Update(photo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));*/
+        }
+
+        
+
     }
 }
