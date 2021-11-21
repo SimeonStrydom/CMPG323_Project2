@@ -9,12 +9,13 @@ using System.Web;
 //using System.Web.MVC;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ptoject2.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             return View();

@@ -53,6 +53,8 @@ namespace ptoject2
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //services.AddSingleton<fileManager>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", 

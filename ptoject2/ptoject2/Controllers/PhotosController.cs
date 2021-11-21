@@ -15,6 +15,9 @@ using ptoject2.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+
 
 namespace ptoject2.Controllers
 {
@@ -24,12 +27,13 @@ namespace ptoject2.Controllers
         private readonly IHostingEnvironment _hostingEnv;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger _logger;
+        //private readonly string _downloadFilePath;
         private IConfiguration _config;
         private string AzureConnectionString { get; }
 
         
 
-        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager, ILogger<PhotosController> logger)
+        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager, ILogger<PhotosController> logger, ImageService imageService)
         {
             _context = context;
             _hostingEnv = hostingEnv;
@@ -37,6 +41,7 @@ namespace ptoject2.Controllers
             _logger = logger;
             AzureConnectionString = _config["AzureStorageConectionString"];
             _userManager = userManager;
+            //_downloadFilePath = downloadFilePath;
         }
 
         // GET: Photos
@@ -112,7 +117,9 @@ namespace ptoject2.Controllers
         {
             if (photo.Image != null)
             {
-                var fileName = Path.GetFileName(photo.Image.FileName);
+                var container = _imageService.GetBlobContainer(AzureConnectionString, "images");
+                
+                /*var fileName = Path.GetFileName(photo.Image.FileName);
                 var filePath = Path.Combine(_hostingEnv.WebRootPath, "images", fileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -128,7 +135,7 @@ namespace ptoject2.Controllers
 
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
-                return Redirect("https://localhost:44335/MetaDatas/Create");
+                return Redirect("https://localhost:44335/MetaDatas/Create");*/
             }
             else
             {
@@ -336,9 +343,7 @@ namespace ptoject2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
-
-
+            return RedirectToAction(nameof(Index)); //change to view(index) if problem presists
             /*photo = await _context.Photo.FindAsync(id);
             var shared = 
             _context.Update(photo);
@@ -346,7 +351,50 @@ namespace ptoject2.Controllers
             return RedirectToAction(nameof(Index));*/
         }
 
-        
+        [HttpGet("download")]
+        [Authorize]
+        public async Task<IActionResult> Download(int? id, [Bind("PhotoId,ImagePath,ImageName,MetaId,AlbumId")] Photo photo/*, [FromQuery] string link*/)
+        {
+            /*if (id == null)
+            {
+                _logger.LogWarning("In Download: Id {id} is null", id);
+                return NotFound();
+            }
+
+            if (id != photo.PhotoId)
+            {
+                _logger.LogWarning("In Download: Id {id} and photoId {pId} mismatch", id, photo.PhotoId);
+                id = photo.PhotoId;
+                //return NotFound();
+            }*/
+
+            try
+            {
+                //var net = new System.Net.WebClient();
+                //var data = net.DownloadData(link);
+                //var content = new System.IO.MemoryStream(data);
+                //var contentType = "APPLICATION/octet-stream";
+                //var fileName = photo.ImageName;
+                //return File(content, contentType, fileName);
+                //if ^ not working try https://www.aspsnippets.com/Articles/ASPNet-Core-MVC-Download-Files-from-Folder-Directory.aspx
+
+                //Build the File Path.
+                string path = Path.Combine(_hostingEnv.WebRootPath, "images\\") + photo.ImageName; //hardcode bmp.bmp in path
+                
+
+                //Read the File data into Byte Array.
+                byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+                //Send the File to Download.
+                return File(bytes, "application/octet-stream", photo.ImageName);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("In Download: Exception: {e}", e);
+                throw;
+                //return View("Index");
+            } 
+        }
 
     }
 }

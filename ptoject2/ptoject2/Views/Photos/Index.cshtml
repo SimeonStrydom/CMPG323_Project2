@@ -32,7 +32,10 @@
                 <div style="background-image:url(~/images/@item.ImageName)"><img src="~/images/@item.ImageName" class="gallery-image" alt="@item.ImageName" /></div><!--change to disply image-->
                 <div>@Html.DisplayFor(modelItem => item.Image)</div>
                 <div class="button">
-                    <a asp-action="ShareImage" asp-route-id="@item.SharedWith" >Share</a>
+                    <a asp-action="ShareImage" asp-route-id="@item.SharedWith">Share</a>
+                </div>
+                <div class="button">
+                    <a asp-action="Download" asp-route-id="@item.PhotoId">Download</a>
                 </div>
             </td>
             <td>
