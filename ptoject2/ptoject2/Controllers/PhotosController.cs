@@ -14,6 +14,7 @@ using ptoject2.Data;
 using ptoject2.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace ptoject2.Controllers
 {
@@ -22,16 +23,18 @@ namespace ptoject2.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnv;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger _logger;
         private IConfiguration _config;
         private string AzureConnectionString { get; }
 
         
 
-        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager)
+        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager, ILogger<PhotosController> logger)
         {
             _context = context;
             _hostingEnv = hostingEnv;
             _config = config;
+            _logger = logger;
             AzureConnectionString = _config["AzureStorageConectionString"];
             _userManager = userManager;
         }
@@ -44,15 +47,26 @@ namespace ptoject2.Controllers
             var filePath = Path.Combine(_hostingEnv.WebRootPath, "images");
             string[] fileNames = Directory.GetFiles(filePath);
             var imageList = new List<Photo>();
-            foreach (string file in fileNames) { 
+            try
             {
-                new Photo()
+                foreach (string file in fileNames)
                 {
-                    ImageName = Path.GetFileName(file),
-                    ImagePath = file,
-                    
-                };
-            } }
+                    {
+                        new Photo()
+                        {
+                            ImageName = Path.GetFileName(file),
+                            ImagePath = file,
+
+                        };
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("In Index: File not found. Exception: {e}", e);
+                throw;
+            }
+            
 
             var gallery = new GalleryIndexModel()
             {
@@ -66,6 +80,7 @@ namespace ptoject2.Controllers
         {
             if (id == null)
             {
+                _logger.LogWarning("In Details: Id {id} is null.", id);
                 return NotFound();
             }
 
@@ -73,6 +88,7 @@ namespace ptoject2.Controllers
                 .FirstOrDefaultAsync(m => m.PhotoId == id);
             if (photo == null)
             {
+                _logger.LogWarning("In Details: Object {obj} is null.", photo);
                 return NotFound();
             }
 
@@ -114,7 +130,11 @@ namespace ptoject2.Controllers
                 await _context.SaveChangesAsync();
                 return Redirect("https://localhost:44335/MetaDatas/Create");
             }
-            else { return View(photo); }
+            else
+            {
+                _logger.LogWarning("In Create: Object {obj} is null.", photo);
+                return View(photo);
+            }
             /*if (ModelState.IsValid)
             {
                 
@@ -141,8 +161,8 @@ namespace ptoject2.Controllers
                 file.CopyToAsync(fileStream);
                 fileStream.Close();
             }
+            _logger.LogInformation("File {file} uploaded successfuly.", fileName);
             return fileName;
-            
         }
 
         // GET: Photos/Edit/5
@@ -172,6 +192,7 @@ namespace ptoject2.Controllers
         {
             if (id != photo.PhotoId)
             {
+                _logger.LogWarning("In Edit: Id {id} is null", id);
                 return NotFound();
             }
 
@@ -182,14 +203,16 @@ namespace ptoject2.Controllers
                     _context.Update(photo);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!PhotoExists(photo.PhotoId))
                     {
+                        _logger.LogWarning("In Edit: Object {obj} is null", photo);
                         return NotFound();
                     }
                     else
                     {
+                        _logger.LogError("Database not updated. Exception: {e}", e);
                         throw;
                     }
                 }
@@ -204,6 +227,7 @@ namespace ptoject2.Controllers
         {
             if (id == null)
             {
+                _logger.LogWarning("In Delete: Id {id} is null", id);
                 return NotFound();
             }
 
@@ -212,6 +236,7 @@ namespace ptoject2.Controllers
             
             if (photo == null)
             {
+                _logger.LogWarning("In Delete: Object {obj} is null", photo);
                 return NotFound();
             }
 
@@ -225,8 +250,17 @@ namespace ptoject2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
-            ImageDelete(Path.Combine(photo.ImagePath, photo.ImageName));
-            
+            try
+            {
+                ImageDelete(Path.Combine(photo.ImagePath, photo.ImageName));
+                _logger.LogInformation("File {file} was successfuly deleted");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("In DeleteConfirm: File delete exception: {e}", e);
+                throw;
+            }
+             
             _context.Photo.Remove(photo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -252,7 +286,7 @@ namespace ptoject2.Controllers
                     System.IO.File.Delete(path);
                     isDeleted = true;
                 }
-                catch (Exception e)     // log exception
+                catch (Exception e)     //exception logged in DeleteConfirm
                 {
                 }
                 Thread.Sleep(50);
@@ -274,6 +308,7 @@ namespace ptoject2.Controllers
         {
             if (id != photo.PhotoId)
             {
+                _logger.LogWarning("In ShareConfirm: Id {id} is null", id);
                 return NotFound();
             }
 
@@ -286,14 +321,16 @@ namespace ptoject2.Controllers
                     _context.Update(photo);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!PhotoExists(photo.PhotoId))
                     {
+                        _logger.LogWarning("Share failed. Could not update DB. In ShareConfirm: Object {obj} is null", photo);
                         return NotFound();
                     }
                     else
                     {
+                        _logger.LogError("Share failed. Could not update DB. In ShareConfirm: Exception: {e}", e);
                         throw;
                     }
                 }

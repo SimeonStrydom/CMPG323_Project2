@@ -7,16 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ptoject2.Data;
 using ptoject2.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace ptoject2.Controllers
 {
     public class MetaDatasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger _logger;
 
-        public MetaDatasController(ApplicationDbContext context)
+        public MetaDatasController(ApplicationDbContext context, UserManager<IdentityUser> userManager, ILogger<MetaDatasController> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _logger = logger;
         }
 
         // GET: MetaDatas
@@ -43,6 +49,7 @@ namespace ptoject2.Controllers
         {
             if (id == null)
             {
+                _logger.LogWarning("In Details: Id {id} is null.", id);
                 return NotFound();
             }
 
@@ -50,6 +57,7 @@ namespace ptoject2.Controllers
                 .FirstOrDefaultAsync(m => m.MetaId == id);
             if (metaData == null)
             {
+                _logger.LogWarning("In Details: Object {obj} is null.", metaData);
                 return NotFound();
             }
 
@@ -83,12 +91,14 @@ namespace ptoject2.Controllers
         {
             if (id == null)
             {
+                _logger.LogWarning("In MetaData/Edit: Id {id} is null.", id);
                 return NotFound();
             }
 
             var metaData = await _context.MetaData.FindAsync(id);
             if (metaData == null)
             {
+                _logger.LogWarning("In MetaData/Edit: Object {obj} is null.", metaData);
                 return NotFound();
             }
             return View(metaData);
@@ -103,6 +113,7 @@ namespace ptoject2.Controllers
         {
             if (id != metaData.MetaId)
             {
+                _logger.LogWarning("In MetaData/Edit: Id {mId} is not found or Id mismatch with {id}.", metaData.MetaId, id);
                 return NotFound();
             }
 
@@ -113,14 +124,16 @@ namespace ptoject2.Controllers
                     _context.Update(metaData);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!MetaDataExists(metaData.MetaId))
                     {
+                        _logger.LogWarning("In MetaData/Edit: Object {obj} is null.", metaData);
                         return NotFound();
                     }
                     else
                     {
+                        _logger.LogWarning("DB update exception: {e}", e);
                         throw;
                     }
                 }
@@ -134,6 +147,7 @@ namespace ptoject2.Controllers
         {
             if (id == null)
             {
+                _logger.LogWarning("In MetaData/Delete: Id {id} is null.", id);
                 return NotFound();
             }
 
@@ -141,6 +155,7 @@ namespace ptoject2.Controllers
                 .FirstOrDefaultAsync(m => m.MetaId == id);
             if (metaData == null)
             {
+                _logger.LogWarning("In MetaData/Delete: Object {obj} is null.", metaData);
                 return NotFound();
             }
 
