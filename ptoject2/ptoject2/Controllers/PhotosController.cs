@@ -384,7 +384,7 @@ namespace ptoject2.Controllers
                 //if ^ not working try https://www.aspsnippets.com/Articles/ASPNet-Core-MVC-Download-Files-from-Folder-Directory.aspx
 
                 //Build the File Path.
-                string path = Path.Combine(_hostingEnv.WebRootPath, "images\\bmp.bmp") + photo.ImageName; // remove hardcode bmp.bmp in path
+                string path = Path.Combine(_hostingEnv.WebRootPath, "images\\jpg.jpg") + photo.ImageName; // remove hardcode bmp.bmp in path
                 
 
                 //Read the File data into Byte Array.
