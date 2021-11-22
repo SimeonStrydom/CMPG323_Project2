@@ -9,7 +9,8 @@ namespace ptoject2.Data
     public interface IImage
     {
         IEnumerable<Photo> GetAll();
-        Photo GetById();
+        Photo GetById(int id);
         IEnumerable<Photo> GetWithTag(string tag);
+        object GetBlobContainer(string azureConnectionString, string containerName);
     }
 }

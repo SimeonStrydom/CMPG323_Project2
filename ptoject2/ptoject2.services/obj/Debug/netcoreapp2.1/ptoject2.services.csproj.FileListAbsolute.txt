@@ -1,0 +1,11 @@
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\bin\Debug\netcoreapp2.1\ptoject2.Views.dll
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\bin\Debug\netcoreapp2.1\ptoject2.Views.pdb
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\bin\Debug\netcoreapp2.1\ptoject2.services.deps.json
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\bin\Debug\netcoreapp2.1\ptoject2.services.dll
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\bin\Debug\netcoreapp2.1\ptoject2.dll
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\bin\Debug\netcoreapp2.1\ptoject2.pdb
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\obj\Debug\netcoreapp2.1\ptoject2.services.csprojAssemblyReference.cache
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\obj\Debug\netcoreapp2.1\ptoject2.services.csproj.CoreCompileInputs.cache
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\obj\Debug\netcoreapp2.1\ptoject2.services.AssemblyInfoInputs.cache
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\obj\Debug\netcoreapp2.1\ptoject2.services.AssemblyInfo.cs
+E:\2021 IT\CMPG 323\CMPG323_Project2\ptoject2\ptoject2.services\obj\Debug\netcoreapp2.1\ptoject2.services.csproj.CopyComplete

@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-
+using System.Net.Http.Headers;
 
 namespace ptoject2.Controllers
 {
@@ -27,13 +27,13 @@ namespace ptoject2.Controllers
         private readonly IHostingEnvironment _hostingEnv;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger _logger;
-        //private readonly string _downloadFilePath;
+        private readonly IImage _imageService;
         private IConfiguration _config;
         private string AzureConnectionString { get; }
 
         
 
-        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager, ILogger<PhotosController> logger, ImageService imageService)
+        public PhotosController(ApplicationDbContext context, IHostingEnvironment hostingEnv, IConfiguration config, UserManager<IdentityUser> userManager, ILogger<PhotosController> logger/*, IImage imageService*/)
         {
             _context = context;
             _hostingEnv = hostingEnv;
@@ -41,7 +41,8 @@ namespace ptoject2.Controllers
             _logger = logger;
             AzureConnectionString = _config["AzureStorageConectionString"];
             _userManager = userManager;
-            //_downloadFilePath = downloadFilePath;
+            //_imageService = imageService;
+
         }
 
         // GET: Photos
@@ -117,9 +118,10 @@ namespace ptoject2.Controllers
         {
             if (photo.Image != null)
             {
-                var container = _imageService.GetBlobContainer(AzureConnectionString, "images");
+                //var container = _imageService.GetBlobContainer(AzureConnectionString, "images");
+                //var content = ContentDispositionHeaderValue.Parse(file)
                 
-                /*var fileName = Path.GetFileName(photo.Image.FileName);
+                var fileName = Path.GetFileName(photo.Image.FileName);
                 var filePath = Path.Combine(_hostingEnv.WebRootPath, "images", fileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -135,7 +137,7 @@ namespace ptoject2.Controllers
 
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
-                return Redirect("https://localhost:44335/MetaDatas/Create");*/
+                return Redirect("https://localhost:44335/MetaDatas/Create");
             }
             else
             {
@@ -311,7 +313,7 @@ namespace ptoject2.Controllers
         [HttpPost, ActionName("ShareImage")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> ShareConfirm(int id, [Bind("SharedWith")] Photo photo)
+        public async Task<IActionResult> ShareConfirm(int id, [Bind("SharedWith"), FromForm] Photo photo)
         {
             if (id != photo.PhotoId)
             {
@@ -319,12 +321,15 @@ namespace ptoject2.Controllers
                 return NotFound();
             }
 
+            
+            
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 try
                 {
-
+                    
                     _context.Update(photo);
                     await _context.SaveChangesAsync();
                 }
@@ -379,7 +384,7 @@ namespace ptoject2.Controllers
                 //if ^ not working try https://www.aspsnippets.com/Articles/ASPNet-Core-MVC-Download-Files-from-Folder-Directory.aspx
 
                 //Build the File Path.
-                string path = Path.Combine(_hostingEnv.WebRootPath, "images\\") + photo.ImageName; //hardcode bmp.bmp in path
+                string path = Path.Combine(_hostingEnv.WebRootPath, "images\\bmp.bmp") + photo.ImageName; // remove hardcode bmp.bmp in path
                 
 
                 //Read the File data into Byte Array.

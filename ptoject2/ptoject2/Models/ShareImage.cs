@@ -13,6 +13,6 @@ namespace ptoject2.Models
         public int SharedId { get; set; }
         [ForeignKey("UserId")]
         public int UserId { get; set; }
-        public string SharedWithId { get; set; }
+        public string SharedWith { get; set; }
     }
 }

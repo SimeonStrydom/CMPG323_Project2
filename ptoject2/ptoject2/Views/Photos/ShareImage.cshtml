@@ -4,7 +4,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Share">
+        <form asp-action="ShareImage">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
             <label asp-for="UserId" class="control-label"></label>
@@ -12,9 +12,9 @@
             <span asp-validation-for="UserId" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <label asp-for="SharedWithId" class="control-label"></label>
-                <input asp-for="SharedWithId" class="form-control" />
-                <span asp-validation-for="SharedWithId" class="text-danger"></span>
+                <label asp-for="SharedWith" class="control-label"></label>
+                <input asp-for="SharedWith" class="form-control" />
+                <span asp-validation-for="SharedWith" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Share" class="btn btn-default" />

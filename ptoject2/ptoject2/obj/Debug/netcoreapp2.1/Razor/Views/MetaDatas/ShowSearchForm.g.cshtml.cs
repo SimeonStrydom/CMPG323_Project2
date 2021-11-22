@@ -57,7 +57,7 @@ using ptoject2.Models;
             WriteLiteral("\r\n\r\n<h4>Search for photo by metadata</h4>\r\n<hr />\r\n<div class=\"row\">\r\n    <div class=\"col-md-4\">\r\n        ");
             EndContext();
             BeginContext(106, 705, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f8f8f903f69a4c7fa17f3daa663242d8", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d4987f3df43f4e62856c69cf30187825", async() => {
                 BeginContext(143, 661, true);
                 WriteLiteral(@"
             
@@ -100,7 +100,7 @@ using ptoject2.Models;
             WriteLiteral("\r\n    </div>\r\n</div>\r\n\r\n<div>\r\n    ");
             EndContext();
             BeginContext(846, 38, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9763c95b8ecb4bb88a920833504ab571", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3733e0ca8a4e4d518680948751b36800", async() => {
                 BeginContext(868, 12, true);
                 WriteLiteral("Back to List");
                 EndContext();
